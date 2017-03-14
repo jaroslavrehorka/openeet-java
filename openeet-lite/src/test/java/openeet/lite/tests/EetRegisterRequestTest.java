@@ -22,6 +22,7 @@ import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import openeet.lite.EetResponse;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -110,7 +111,11 @@ public class EetRegisterRequestTest {
 		String signed=data.generateSoapRequest();
 		assertNotNull(data.getLastHeader());
 		assertTrue(validateXmlDSig(signed, data.getCertificate()));
-		data.sendRequest(signed, new URL("https://pg.eet.cz:443/eet/services/EETServiceSOAP/v3"));
+
+		String reponseData = data.sendRequest(signed, new URL("https://pg.eet.cz:443/eet/services/EETServiceSOAP/v3"));
+		EetResponse response = new EetResponse(reponseData);
+
+		assertNotNull(response.getFik());
 	}
 	
 	@Test
