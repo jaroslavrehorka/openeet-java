@@ -34,7 +34,7 @@ public class EetTrustManager implements X509TrustManager {
     public EetTrustManager()  {
     	KeyStore ks;
 		String defaultKeyStoreType = KeyStore.getDefaultType();
-		String trustStore = "/openeet/lite/eet-trust." + defaultKeyStoreType;
+		String trustStore = "/openeet/lite/eet-trust." + defaultKeyStoreType.toLowerCase();
 
     	try {
 			ks = KeyStore.getInstance(defaultKeyStoreType.toUpperCase());
