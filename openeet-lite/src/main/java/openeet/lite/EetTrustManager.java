@@ -18,9 +18,8 @@ import javax.net.ssl.X509TrustManager;
  */
 public class EetTrustManager implements X509TrustManager {
 
-    X509TrustManager pkixTrustManager;
+    private X509TrustManager pkixTrustManager;
 
-    
     /**
      * Init with custom keystore
      * @param ks loaded keystore containing trusted certificates (usually root CA cert and intermediate CA cert)
@@ -33,10 +32,13 @@ public class EetTrustManager implements X509TrustManager {
      * Init with keystore loaded from resources suitable for EET public interface
      */
     public EetTrustManager()  {
-    	KeyStore ks=null;
+    	KeyStore ks;
+		String defaultKeyStoreType = KeyStore.getDefaultType();
+		String trustStore = "/openeet/lite/eet-trust." + defaultKeyStoreType;
+
     	try {
-	        ks = KeyStore.getInstance("JKS");
-	        ks.load(EetTrustManager.class.getResourceAsStream("/openeet/lite/eet-trust.jks"), "eeteet".toCharArray());
+			ks = KeyStore.getInstance(defaultKeyStoreType.toUpperCase());
+	        ks.load(EetTrustManager.class.getResourceAsStream(trustStore), "eeteet".toCharArray());
     	}
     	catch (Exception e){
     		throw new RuntimeException("failed to init with keystore",e);
